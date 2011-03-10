@@ -1,3 +1,5 @@
 .DS-Store
+.pydevproject
 .project
 .pyc
+_credentials.py
