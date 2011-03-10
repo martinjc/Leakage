@@ -2,4 +2,4 @@
 .pydevproject
 .project
 .pyc
-KEYS
+_credentials.py
