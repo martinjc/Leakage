@@ -29,13 +29,14 @@ from urllib import urlencode, urlopen
 from xml.dom import minidom
 import hashlib
 import os
+import _credentials
 
 HOST = 'http://flickr.com'
 API = '/services/rest'
 
 # set these here or using flickr.API_KEY in your application
-API_KEY = ''
-API_SECRET = ''
+API_KEY = _credentials.flickr['key']
+API_SECRET = _credentials.flickr['secret']
 email = None  
 password = None
 AUTH = False
@@ -1304,7 +1305,7 @@ class Blogs():
         return None
 
 class Urls():
-    def getUserPhotosURL(userid):
+    def getUserPhotosURL(self, userid):
         """Returns user URL in an array (to access, use array[1])"""
         method = 'flickr.urls.getUserPhotos'
         data = _doget(method, user_id=userid)
