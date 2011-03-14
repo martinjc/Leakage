@@ -514,7 +514,9 @@ class User(object):
            and not self.__loaded:
             self._load_properties()
         return getattr(self, "_%s__%s" % (self.__class__.__name__, var))
-            
+  
+  
+ # IMC added try : to remove case of no data given.            
     def _load_properties(self):
         """Load User properties from Flickr."""
         method = 'flickr.people.getInfo'
@@ -523,10 +525,14 @@ class User(object):
         self.__loaded = True
         
         person = data.rsp.person
-
-        self.__isadmin = person.isadmin
-        self.__ispro = person.ispro
-        self.__icon_server = person.iconserver
+      
+        try :
+            self.__isadmin = person.isadmin
+            self.__ispro = person.ispro
+            self.__icon_server = person.iconserver
+        except:
+            tmp = 2
+            
         if int(person.iconserver) > 0:
             self.__icon_url = 'http://photos%s.flickr.com/buddyicons/%s.jpg' \
                               % (person.iconserver, self.__id)
@@ -1025,6 +1031,12 @@ def contacts_getPublicList(user_id):
 #   else:
 #       user = data.rsp.contacts.contact
 #       return [User(user.nsid, username=user.username)]
+def contacts_getFullInfoPublicList(user_id):
+    contacts = contacts_getPublicList(user_id)
+    for user in contacts:
+        User._load_properties(user)
+    return contacts
+
 
 def interestingness():
     method = 'flickr.interestingness.getList'
